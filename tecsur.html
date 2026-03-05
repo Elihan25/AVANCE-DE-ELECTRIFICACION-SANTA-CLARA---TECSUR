@@ -17,9 +17,9 @@
       --accent: #38bdf8;
       --f1: #3b82f6; 
       --f2: #10b981; 
-      --f3: #f59e0b; /* Alerta / Naranja */
-      --critical: #ef4444; /* Crítico / Rojo */
-      --ok: #22c55e; /* Óptimo / Verde */
+      --f3: #f59e0b; 
+      --critical: #ef4444; 
+      --ok: #22c55e; 
     }
 
     * { box-sizing: border-box; }
@@ -47,7 +47,6 @@
 
     .main-container { padding: 1.5rem; max-width: 1800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
 
-    /* KPI CARDS - UNIFORMES Y DINÁMICOS */
     .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; align-items: stretch; }
     .kpi-card { 
       background: var(--card); 
@@ -58,7 +57,6 @@
       flex-direction: column;
       height: 130px; 
       justify-content: flex-start;
-      transition: transform 0.2s;
     }
     .kpi-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem; height: 1rem; }
     .kpi-value { font-size: 1.8rem; font-weight: 800; color: var(--text); line-height: 1.2; }
@@ -72,7 +70,6 @@
       padding-top: 5px;
     }
 
-    /* COLORES SEMÁFORO */
     .text-ok { color: var(--ok) !important; }
     .text-warn { color: var(--f3) !important; }
     .text-crit { color: var(--critical) !important; }
@@ -80,7 +77,6 @@
     .filter-bar { background: var(--card2); padding: 1rem; border-radius: 12px; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
     select { background: var(--bg); color: var(--text); border: 1px solid var(--line); padding: 0.5rem; border-radius: 6px; font-size: 0.85rem; outline: none; }
     
-    /* GANTT */
     .gantt-container { background: var(--card); border-radius: 12px; border: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column; position: relative; }
     .gantt-scroll { overflow: auto; position: relative; max-height: 600px; }
     .gantt-table { display: flex; flex-direction: column; min-width: max-content; position: relative; }
@@ -166,7 +162,7 @@
 
     const DAY_W = 32;
     const TODAY = new Date("2026-03-05"); 
-    const MIN_CAL = new Date("2026-01-15");
+    const MIN_CAL = new Date("2026-01-16"); 
     const MAX_CAL = new Date("2026-05-15");
 
     function calcularDesviacion(task) {
@@ -202,7 +198,7 @@
         (!fFase || d.fase === fFase) && (!fOwner || d.owner === fOwner) && (!fEstado || d.estado === fEstado)
       );
 
-      // --- AVANCE TOTAL CON COLOR DINÁMICO ---
+      // COLORES PARA EL AVANCE TOTAL
       const totalAvance = rawData.reduce((acc, d) => acc + d.avance, 0) / rawData.length;
       const elAvance = document.getElementById('kpi-real');
       elAvance.innerText = `${(totalAvance * 100).toFixed(1)}%`;
@@ -210,22 +206,19 @@
       else if(totalAvance < 0.7) elAvance.className = "kpi-value text-warn";
       else elAvance.className = "kpi-value text-ok";
       
-      // --- DESVIACIÓN PROYECTO CON COLOR DINÁMICO ---
+      // COLORES PARA LA DESVIACION (+9 d)
       const masterTask = { inicio: "2026-01-16", fin: "2026-04-09", avance: totalAvance, estado: "En progreso" };
       const masterDesv = calcularDesviacion(masterTask);
       const elDesv = document.getElementById('kpi-desvio-gral');
       elDesv.innerText = `${masterDesv > 0 ? '+' : ''}${masterDesv} d`;
       if(masterDesv <= 0) elDesv.className = "kpi-value text-ok";
       else if(masterDesv <= 2) elDesv.className = "kpi-value text-warn";
-      else elDesv.className = "kpi-value text-crit";
+      else elDesv.className = "kpi-value text-crit"; // Rojo si es mayor a 2 días
 
-      // --- TAREAS CON ATRASO ---
       let atrasadas = [];
       filtered.forEach(t => {
         const d = calcularDesviacion(t);
-        if (d > 0.5 && t.avance < 1) {
-          atrasadas.push(t.id);
-        }
+        if (d > 0.5 && t.avance < 1) atrasadas.push(t.id);
       });
       document.getElementById('kpi-atraso-num').innerText = atrasadas.length + (atrasadas.length === 1 ? " tarea" : " tareas");
       document.getElementById('kpi-atraso-lista').innerText = atrasadas.length > 0 ? "IDs: " + atrasadas.join(", ") : "Sin retrasos";
@@ -243,9 +236,9 @@
       }
       html += `</div></div>`;
 
-      // FILA MAESTRA
+      // MASTER BAR (+1 dia visual)
       const mStart = new Date("2026-01-16"), mEnd = new Date("2026-04-09");
-      const mLeft = Math.ceil((mStart - MIN_CAL)/86400000) * DAY_W;
+      const mLeft = (Math.ceil((mStart - MIN_CAL)/86400000) * DAY_W) + DAY_W;
       const mWidth = (Math.ceil((mEnd - mStart)/86400000) + 1) * DAY_W;
       
       html += `
@@ -256,7 +249,7 @@
           </div>
           <div class="col-timeline">
             <div class="bar-task bar-master" style="left:${mLeft}px; width:${mWidth}px"
-                 onmouseenter='showTooltip(event, {reporte:"RESUMEN GENERAL", avance: ${totalAvance}, inicio:"2026-01-16", fin:"2026-04-09", owner:"TECSUR"})' onmouseleave="hideTooltip()">
+                  onmouseenter='showTooltip(event, {reporte:"RESUMEN GENERAL", avance: ${totalAvance}, inicio:"2026-01-16", fin:"2026-04-09", owner:"TECSUR", estado:"En progreso"})' onmouseleave="hideTooltip()">
               <div class="bar-progress" style="width:${totalAvance*100}%; background: var(--accent)"></div>
               <div class="bar-label">AVANCE ACUMULADO: ${(totalAvance*100).toFixed(1)}%</div>
             </div>
@@ -265,7 +258,7 @@
 
       filtered.forEach(task => {
         const start = new Date(task.inicio), end = new Date(task.fin);
-        const left = Math.ceil((start - MIN_CAL)/86400000) * DAY_W;
+        const left = (Math.ceil((start - MIN_CAL)/86400000) * DAY_W) + DAY_W;
         const width = (Math.ceil((end - start)/86400000) + 1) * DAY_W;
         const color = task.fase === "Fase 1" ? "var(--f1)" : "var(--f2)";
         const d = calcularDesviacion(task);
@@ -282,7 +275,7 @@
             </div>
             <div class="col-timeline">
               <div class="bar-task" style="left:${left}px; width:${width}px; background:${color}44; border:1px solid ${color}"
-                   onmouseenter='showTooltip(event, ${JSON.stringify(task)})' onmouseleave="hideTooltip()">
+                    onmouseenter='showTooltip(event, ${JSON.stringify(task)})' onmouseleave="hideTooltip()">
                 <div class="bar-progress" style="width:${task.avance*100}%; background:${color}"></div>
                 <div class="bar-label">${(task.avance*100).toFixed(0)}%</div>
               </div>
@@ -298,18 +291,9 @@
     const tt = document.getElementById('tooltip');
     function showTooltip(e, task) {
       const desvio = calcularDesviacion(task);
-      const startP = new Date(task.inicio);
       const endP = new Date(task.fin);
-      
-      let fVel = "N/A";
-      if (task.avance > 0 && task.avance < 1) {
-        const dTot = ((TODAY - startP) / 86400000) / task.avance;
-        const proj = new Date(startP); proj.setDate(proj.getDate() + dTot);
-        fVel = proj.toLocaleDateString();
-      } else if (task.avance >= 1) fVel = "COMPLETADO";
-
       const projEndDesv = new Date(endP); 
-      projEndDesv.setDate(projEndDesv.getDate() + Math.max(0, Math.ceil(desvio)));
+      projEndDesv.setDate(projEndDesv.getDate() + Math.round(desvio) + 1);
 
       tt.style.display = 'block';
       tt.innerHTML = `
@@ -324,10 +308,6 @@
         <div class="tt-row" style="color:var(--accent)">
           <span class="tt-label" style="color:var(--accent)">Fin estimado por Desviación:</span> 
           <b>${projEndDesv.toLocaleDateString()}</b>
-        </div>
-        <div class="tt-row" style="margin-top:4px; padding-top:4px; border-top: 1px dotted var(--line)">
-          <span class="tt-label">Fin estimado a la velocidad actual de trabajo:</span> 
-          <b style="color: var(--f3)">${fVel}</b>
         </div>
       `;
       moveTooltip(e);
