@@ -144,36 +144,53 @@
   <script>
     const rawData = [
       { id: "R1", reporte: "R1 - OBRAS PROVISIONALES Y PRELIMINARES", fase: "Fase 1", owner: "TECSUR", inicio: "2026-01-31", fin: "2026-04-06", estado: "En progreso", avance: 0.83 },
-      { id: "R2.1", reporte: "R2.1 - MONTAJE DE POSTES - MEDIA TENSIÓN", fase: "Fase 1", owner: "TECSUR", inicio: "2026-01-29", fin: "2026-03-30", estado: "En progreso", avance: 0.94 },
-      { id: "R2.2", reporte: "R2.2- MONTAJE DE ARMADOS MT", fase: "Fase 1", owner: "TECSUR", inicio: "2026-02-09", fin: "2026-03-10", estado: "En progreso", avance: 0.58 },
+      { id: "R2.1", reporte: "R2.1 - MONTAJE DE POSTES - MEDIA TENSIÓN", fase: "Fase 1", owner: "TECSUR", inicio: "2026-01-29", fin: "2026-03-30", estado: "Terminado", avance: 1.00 },
+      { id: "R2.2", reporte: "R2.2- MONTAJE DE ARMADOS MT", fase: "Fase 1", owner: "TECSUR", inicio: "2026-02-09", fin: "2026-03-10", estado: "En progreso", avance: 0.74 },
       { id: "R2.3", reporte: "R2.3 - MONTAJE DE CONDUCTORES", fase: "Fase 1", owner: "TECSUR", inicio: "2026-02-18", fin: "2026-02-26", estado: "Terminado", avance: 1.00 },
       { id: "R2.4", reporte: "R2.4 - INSTALACION DE PUESTA A TIERRA", fase: "Fase 1", owner: "TECSUR", inicio: "2026-02-05", fin: "2026-03-14", estado: "En progreso", avance: 0.75 },
       { id: "R2.5", reporte: "R2.5 - TRABAJOS SUBTERRÁNEOS MT", fase: "Fase 1", owner: "TECSUR", inicio: "2026-01-16", fin: "2026-03-03", estado: "Terminado", avance: 1.00 },
-      { id: "R3.1", reporte: "R3.1 - TRABAJOS SUBTERRANEOS BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-02-19", fin: "2026-03-19", estado: "No iniciado", avance: 0.00 },
-      { id: "R3.2", reporte: "R3.2 - MONTAJE DE POSTES -BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-02-03", fin: "2026-03-22", estado: "En progreso", avance: 0.88 },
-      { id: "R3.3", reporte: "R3.3 - MONTAJE DE ARMADOS BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-02-19", fin: "2026-03-22", estado: "En progreso", avance: 0.64 },
-      { id: "R3.4", reporte: "R3.4 - MONTAJE DE CONDUCTORES BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-03-05", fin: "2026-03-24", estado: "No iniciado", avance: 0.00 },
-      { id: "R3.5", reporte: "R3.5 - INSTALACION DE PUESTA A TIERRA BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-03-09", fin: "2026-03-24", estado: "En progreso", avance: 0.35 },
+      { id: "R3.1", reporte: "R3.1 - TRABAJOS SUBTERRANEOS BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-02-19", fin: "2026-03-19", estado: "En progreso", avance: 0.65 },
+      { id: "R3.2", reporte: "R3.2 - MONTAJE DE POSTES -BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-02-03", fin: "2026-03-22", estado: "Terminado", avance: 1.00 },
+      { id: "R3.3", reporte: "R3.3 - MONTAJE DE ARMADOS BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-02-19", fin: "2026-03-22", estado: "En progreso", avance: 0.96 },
+      { id: "R3.4", reporte: "R3.4 - MONTAJE DE CONDUCTORES BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-03-05", fin: "2026-03-24", estado: "En progreso", avance: 0.11 },
+      { id: "R3.5", reporte: "R3.5 - INSTALACION DE PUESTA A TIERRA BT", fase: "Fase 2", owner: "TECSUR", inicio: "2026-03-09", fin: "2026-03-24", estado: "En progreso", avance: 0.50 },
       { id: "R3.6", reporte: "R3.6 - INSTALACION DE EQUIPOS ALUMBRADO", fase: "Fase 2", owner: "TECSUR", inicio: "2026-03-10", fin: "2026-03-26", estado: "No iniciado", avance: 0.00 },
       { id: "R3.7", reporte: "R3.7 - INSTALACION DE EMPALMES Y CONECTORES", fase: "Fase 2", owner: "TECSUR", inicio: "2026-03-13", fin: "2026-03-26", estado: "No iniciado", avance: 0.00 },
       { id: "R3.8", reporte: "R3.8 - CONEXIÓN CAJA DISTRIBUCIÓN", fase: "Fase 2", owner: "TECSUR", inicio: "2026-03-20", fin: "2026-03-29", estado: "No iniciado", avance: 0.00 },
-      { id: "R4", reporte: "R4 - PRUEBAS ELÉCTRICAS Y ENTREGA", fase: "Fase 2", owner: "TECSUR", inicio: "2026-04-08", fin: "2026-04-08", estado: "No iniciado", avance: 0.00 }
+      { id: "R4", reporte: "R4 - PRUEBAS ELÉCTRICAS Y ENTREGA", fase: "Fase 2", owner: "TECSUR", inicio: "2026-04-08", fin: "2026-04-08", estado: "En progreso", avance: 0.20 }
     ];
 
     const DAY_W = 32;
-    const TODAY = new Date("2026-03-05"); 
+    const TODAY = new Date("2026-03-07T12:00:00"); 
     const MIN_CAL = new Date("2026-01-16"); 
     const MAX_CAL = new Date("2026-05-15");
 
     function calcularDesviacion(task) {
       if (task.estado === "Terminado") return 0;
-      const start = new Date(task.inicio);
-      const end = new Date(task.fin);
-      const duracionTotal = Math.max(1, Math.ceil((end - start) / 86400000) + 1);
+      
+      // Normalización estricta de fechas para evitar desfases de horas
+      const dInicio = new Date(task.inicio + "T00:00:00");
+      const dFin = new Date(task.fin + "T00:00:00");
+      const dHoy = new Date(TODAY);
+      dHoy.setHours(0, 0, 0, 0);
+
+      // Duración planificada total (ej. del 1 al 2 son 2 días)
+      const duracionPlanificada = Math.max(1, Math.round((dFin - dInicio) / 86400000) + 1);
+      
+      // Días calendario transcurridos desde el inicio hasta hoy
       let diasTranscurridos = 0;
-      if (TODAY > start) diasTranscurridos = Math.ceil((TODAY - start) / 86400000);
-      if (TODAY < start && task.avance === 0) return 0;
-      return parseFloat((diasTranscurridos - (task.avance * duracionTotal)).toFixed(1));
+      if (dHoy > dInicio) {
+        diasTranscurridos = Math.round((dHoy - dInicio) / 86400000);
+      }
+
+      if (dHoy < dInicio && task.avance === 0) return 0;
+
+      // El desvío es la diferencia entre los días pasados y lo que el % representa
+      const avanceEnDias = task.avance * duracionPlanificada;
+      const resultado = parseFloat((diasTranscurridos - avanceEnDias).toFixed(1));
+      
+      // Limpiamos valores ínfimos para que no muestre 0.1 o -0.1 por error de decimales
+      return Math.abs(resultado) < 0.2 ? 0 : resultado;
     }
 
     function init() {
@@ -181,7 +198,8 @@
       [...new Set(rawData.map(d => d.owner))].forEach(v => document.getElementById('filter-owner').add(new Option(v, v)));
       [...new Set(rawData.map(d => d.estado))].forEach(v => document.getElementById('filter-estado').add(new Option(v, v)));
       
-      document.getElementById('todayLabel').innerText = "Corte: " + TODAY.toLocaleDateString();
+      document.getElementById('todayLabel').innerText = "Corte: 07/03/2026";
+      
       document.querySelectorAll('select').forEach(s => s.addEventListener('change', render));
       render();
       
@@ -198,7 +216,6 @@
         (!fFase || d.fase === fFase) && (!fOwner || d.owner === fOwner) && (!fEstado || d.estado === fEstado)
       );
 
-      // COLORES PARA EL AVANCE TOTAL
       const totalAvance = rawData.reduce((acc, d) => acc + d.avance, 0) / rawData.length;
       const elAvance = document.getElementById('kpi-real');
       elAvance.innerText = `${(totalAvance * 100).toFixed(1)}%`;
@@ -206,14 +223,13 @@
       else if(totalAvance < 0.7) elAvance.className = "kpi-value text-warn";
       else elAvance.className = "kpi-value text-ok";
       
-      // COLORES PARA LA DESVIACION (+9 d)
       const masterTask = { inicio: "2026-01-16", fin: "2026-04-09", avance: totalAvance, estado: "En progreso" };
       const masterDesv = calcularDesviacion(masterTask);
       const elDesv = document.getElementById('kpi-desvio-gral');
       elDesv.innerText = `${masterDesv > 0 ? '+' : ''}${masterDesv} d`;
       if(masterDesv <= 0) elDesv.className = "kpi-value text-ok";
       else if(masterDesv <= 2) elDesv.className = "kpi-value text-warn";
-      else elDesv.className = "kpi-value text-crit"; // Rojo si es mayor a 2 días
+      else elDesv.className = "kpi-value text-crit";
 
       let atrasadas = [];
       filtered.forEach(t => {
@@ -236,7 +252,6 @@
       }
       html += `</div></div>`;
 
-      // MASTER BAR (+1 dia visual)
       const mStart = new Date("2026-01-16"), mEnd = new Date("2026-04-09");
       const mLeft = (Math.ceil((mStart - MIN_CAL)/86400000) * DAY_W) + DAY_W;
       const mWidth = (Math.ceil((mEnd - mStart)/86400000) + 1) * DAY_W;
@@ -293,7 +308,7 @@
       const desvio = calcularDesviacion(task);
       const endP = new Date(task.fin);
       const projEndDesv = new Date(endP); 
-      projEndDesv.setDate(projEndDesv.getDate() + Math.round(desvio) + 1);
+      projEndDesv.setDate(projEndDesv.getDate() + Math.round(desvio));
 
       tt.style.display = 'block';
       tt.innerHTML = `
