@@ -199,7 +199,7 @@
       [...new Set(rawData.map(d => d.owner))].forEach(v => document.getElementById('filter-owner').add(new Option(v, v)));
       [...new Set(rawData.map(d => d.estado))].forEach(v => document.getElementById('filter-estado').add(new Option(v, v)));
       
-      document.getElementById('todayLabel').innerText = "Corte: 07/03/2026";
+      document.getElementById('todayLabel').innerText = "Corte: 11/03/2026";
       
       document.querySelectorAll('select').forEach(s => s.addEventListener('change', render));
       render();
